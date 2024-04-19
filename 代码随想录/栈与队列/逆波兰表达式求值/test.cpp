@@ -35,7 +35,7 @@ public:
                 else if (s=="/") {
                     tmp = right/left;
                 }
-                // std::cout<<"运算结果："<<tmp<<std::endl;
+                std::cout<<"运算结果："<<tmp<<std::endl;
                 helper_stack.push(tmp);
 
             } else {
