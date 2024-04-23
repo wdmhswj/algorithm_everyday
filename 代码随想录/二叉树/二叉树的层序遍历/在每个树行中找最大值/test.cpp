@@ -1,4 +1,4 @@
-#include "../../../structs/TreeNode.h"
+#include "../../../../structs/TreeNode.h"
 #include <vector>
 #include <queue>
 
@@ -7,8 +7,8 @@ using std::queue;
 
 class Solution {
 public:
-    vector<vector<int>> levelOrder(TreeNode* root) {
-        vector<vector<int>> res;
+    vector<int> largestValues(TreeNode* root) {
+        vector<int> res;
         if (root==nullptr) {
             return res;
         }
@@ -17,11 +17,13 @@ public:
         TreeNode* node = nullptr;   // 辅助指针
         while (!que.empty()) {
             int size = que.size();  // 获取当前层节点的个数
-            vector<int> vec;
+            int max = INT_MIN;
             for (int i=0; i<size; ++i) {
                 node = que.front();
                 que.pop();
-                vec.push_back(node->val);
+                if (node->val>max) {
+                    max = node->val;
+                }
                 if (node->left != nullptr) {
                     que.push(node->left);
                 }
@@ -29,7 +31,7 @@ public:
                     que.push(node->right);
                 }
             }
-            res.push_back(vec); // 当前层结果放入结果集
+            res.push_back(max); // 当前层结果放入结果集
         }
         return res;
     }
