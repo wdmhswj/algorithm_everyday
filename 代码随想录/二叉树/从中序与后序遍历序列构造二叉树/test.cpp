@@ -26,7 +26,21 @@ private:
                                         if (postorderEnd-postorderBegin==1) {   // 只有一个节点
                                             return root;    
                                         }
+                                        // 在中序遍历中找到根节点
+                                        int rootIndex;
+                                        for (rootIndex=0; rootIndex<inorderEnd-inorderBegin; ++rootIndex) {
+                                            if (inorder[inorderBegin+rootIndex]==root->val) {
+                                                break;
+                                            }
+                                        }
+
+                                        root->left=traversal(inorder, inorderBegin, inorderBegin+rootIndex,
+                                                            postorder,  postorderBegin, postorderBegin+rootIndex);
                                         
+                                        root->right=traversal(inorder, inorderBegin+rootIndex+1, inorderEnd,
+                                                            postorder,  postorderBegin+rootIndex, postorderEnd-1);
+                                        
+                                        return root;
 
                                     }
 public:
@@ -34,6 +48,6 @@ public:
         if (inorder.size()==0 || postorder.size()==0) {
             return nullptr;
         }
-
+        return traversal(inorder, 0, inorder.size(), postorder, 0, postorder.size());
     }
 };
