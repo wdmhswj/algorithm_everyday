@@ -1,1 +1,2 @@
-*.exe   # 忽略所有Windows可执行文件
+# 忽略所有Windows可执行文件
+*.exe
