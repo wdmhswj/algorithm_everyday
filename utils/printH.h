@@ -15,3 +15,10 @@ void printVector3D(const std::vector<std::vector<std::vector<int>>>& input) {
     }
     std::cout<<"]"<<std::endl;
 }
+
+void printVector1D(const std::vector<int>& input) {
+    for(auto& i:input) {
+        std::cout<<i<<" ";
+    }
+    std::cout<<std::endl;
+}
