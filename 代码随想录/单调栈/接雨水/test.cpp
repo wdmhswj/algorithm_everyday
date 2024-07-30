@@ -11,6 +11,7 @@ using std::stack;
 class Solution {
 
 public:
+    // 单调栈
    int trap(vector<int>& height) {
         if (height.empty()) {
             return 0;
@@ -41,6 +42,8 @@ public:
         }
        return res;
     }
+
+    // 暴力求解
     int trap1(vector<int>& height) {
         if (height.empty()) {
             return 0;
@@ -66,6 +69,31 @@ public:
             }
         }
         return res;
+    }
+
+
+    // 双指针优化
+    int trap2(vector<int>& height) {
+        if (height.empty()) {
+            return 0;
+        }
+        int n=height.size();
+        vector<int> left_max(n, 0);
+        vector<int> right_max(n, 0);
+        left_max[0]=height[0];
+        for(int i=1; i<n; ++i) {
+            left_max[i]=std::max(height[i], left_max[i-1]);
+        }
+        right_max[n-1]=height[n-1];
+        for(int i=n-2; i>=0; --i) {
+            right_max[i]=std::max(height[i], right_max[i+1]);
+        }
+
+        int sum=0;
+        for(int i=1; i<n-1; i++) {
+            sum += std::min(left_max[i], right_max[i])-height[i];
+        }
+        return sum;
     }
 };
 
