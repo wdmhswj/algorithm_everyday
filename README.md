@@ -777,3 +777,41 @@ if(s[i]==s[j]){
 输出一个整数，表示最大的岛屿面积。如果矩阵中不存在岛屿，则输出0。
 - 首先用dfs或bfs遍历一遍标记一下每个岛屿（记录其面积并标记其陆地为其编号），然后遍历每个非陆地单元格，计算其周围岛屿面积之和+1
 - 存在特殊情况，全都为陆地，要单独考虑
+
+#### 字符串接龙
+
+##### 题目描述
+字典 strList 中从字符串 beginStr 和 endStr 的转换序列是一个按下述规格形成的序列： 
+
+1. 序列中第一个字符串是 beginStr。
+
+2. 序列中最后一个字符串是 endStr。 
+
+3. 每次转换只能改变一个字符。 
+
+4. 转换过程中的中间字符串必须是字典 strList 中的字符串，且strList里的每个字符串只用使用一次。 
+
+- 给你两个字符串 beginStr 和 endStr 和一个字典 strList，找到从 beginStr 到 endStr 的最短转换序列中的字符串数目。如果不存在这样的转换序列，返回 0。
+
+- 输入描述
+第一行包含一个整数 N，表示字典 strList 中的字符串数量。 第二行包含两个字符串，用空格隔开，分别代表 beginStr 和 endStr。 后续 N 行，每行一个字符串，代表 strList 中的字符串。
+- 输出描述
+输出一个整数，代表从 beginStr 转换到 endStr 需要的最短转换序列中的字符串数量。如果不存在这样的转换序列，则输出 0。
+- 输入示例
+6
+abc def
+efc
+dbc
+ebc
+dec
+dfc
+yhn
+- 输出示例
+4
+- 提示信息
+从 startStr 到 endStr，在 strList 中最短的路径为 abc -> dbc -> dec -> def，所以输出结果为 4，如图：
+![](https://code-thinking-1253855093.file.myqcloud.com/pics/20240529121038.png)
+- 数据范围：2 <= N <= 500
+##### 思考
+- 可以使用dfs或bfs寻找从beginStr到endStr的所有可能路径，形成一条边需要满足只改变了一个字符，记录最短路径的节点值。可以将beginStr和endStr加入到strList中，dfs只从beginStr开始遍历。
+- 随想录思路：由于求的是无向图最短路径，使用bfs较为合适，当前遍历到endStr时长度即为最短路径
