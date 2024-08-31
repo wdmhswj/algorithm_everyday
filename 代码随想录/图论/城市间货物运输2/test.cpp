@@ -36,8 +36,8 @@ int main()
     for(const Edge& e: edges)
     {
         if (dist[e.u]!=INF && dist[e.v]>dist[e.u]+e.weight) {
-            std::cerr<<"负环";
-            return 1;
+            std::cout<<"circle";
+            return 0;
         }
     }
 

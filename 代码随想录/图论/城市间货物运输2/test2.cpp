@@ -27,11 +27,13 @@ int main()
 
     std::vector<int> dist(n+1, INF);
     std::vector<bool> visited(n+1, false);
+    std::vector<int> count(n+1, 0);
     std::queue<int> que;
     int start = 1, end = n;
     
     que.push(start);
     dist[start]=0;
+    count[start]++;
 
     while(!que.empty())
     {
@@ -44,6 +46,12 @@ int main()
             if(dist[e.to] > dist[cur] + e.weight)
             {
                 dist[e.to] = dist[cur] + e.weight;
+                count[e.to]++;
+                if(count[e.to]==n)
+                {
+                    std::cout<<"circle";
+                    return 0;
+                }
                 if(!visited[e.to])
                     que.push(e.to);
             }
