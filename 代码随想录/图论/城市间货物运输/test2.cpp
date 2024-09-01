@@ -44,8 +44,11 @@ int main()
             if(dist[e.to] > dist[cur] + e.weight)
             {
                 dist[e.to] = dist[cur] + e.weight;
-                if(!visited[e.to])
+                if(!visited[e.to]){
                     que.push(e.to);
+                    visited[e.to]=true;
+                }
+                    
             }
         }
     }
