@@ -1,6 +1,5 @@
-// #include <cmath>
+// #include <algorithm>
 #include <queue>
-// #include <utility>
 #include <vector>
 #include <iostream>
 
@@ -23,29 +22,36 @@ struct knight {
     }
 
 
-    knight(int x, int y, const knight& k, int e_x, int e_y)
-        : x(x), y(y)
-    {
-        g = k.g+5;
-        h = (x-e_x)*(x-e_x) + (y-e_y)*(y-e_y);
-        f = g + h;
-    }
+    // knight(int x, int y, const knight& k, int e_x, int e_y)
+    //     : x(x), y(y)
+    // {
+    //     g = k.g+5;
+    //     h = (x-e_x)*(x-e_x) + (y-e_y)*(y-e_y);
+    //     f = g + h;
+    // }
 
-    knight(int x, int y, int g, int h, int f)
-        : x(x), y(y), g(g), h(h), f(f)
-    {}
+    // knight(int x, int y, int g, int h, int f)
+    //     : x(x), y(y), g(g), h(h), f(f)
+    // {}
 
 };
 
+
+
 int bfs(const std::vector<int>& pos, std::vector<std::vector<int>>& board, std::priority_queue<knight>& p_q, int size=1000) {
     // 棋盘，同时int值记录步数
-    // std::vector<std::vector<int>> board(size+1, std::vector<int>(size+1, -1));
+    
     
     // std::queue<std::pair<int, int>> que;
     // std::priority_queue<knight> p_q;
     
-    int s_h = (pos[2]-pos[0])*(pos[2]- pos[0]) + (pos[3]-pos[1])*(pos[3]- pos[1]);
-    knight s(pos[0], pos[1], 0, s_h, s_h);
+    // int s_h = (pos[2]-pos[0])*(pos[2]- pos[0]) + (pos[3]-pos[1])*(pos[3]- pos[1]);
+    knight s;
+    s.x=pos[0];
+    s.y=pos[1];
+    s.g = 0;
+    s.h = (pos[2]-pos[0])*(pos[2]- pos[0]) + (pos[3]-pos[1])*(pos[3]- pos[1]);
+    s.f = s.g + s.h;
     p_q.push(s);
     // que.push({pos[0], pos[1]});
     board[pos[0]][pos[1]] = 0;
@@ -66,7 +72,16 @@ int bfs(const std::vector<int>& pos, std::vector<std::vector<int>>& board, std::
             }
             if(board[x][y]==-1){
                 board[x][y] = board[k.x][k.y] + 1;
-                p_q.emplace(x, y, k, pos[2], pos[3]);
+                // p_q.emplace(x, y, k, pos[2], pos[3]);
+
+                knight s;
+                s.x=x;
+                s.y=y;
+                s.g = k.g+5;
+                s.h = (pos[2]-x)*(pos[2]- x) + (pos[3]-y)*(pos[3]- y);
+                s.f = s.g + s.h;
+                p_q.push(s);
+
             }
         }
     }
@@ -80,21 +95,9 @@ int main(){
     {
         std::cin>>pos[i][0]>>pos[i][1]>>pos[i][2]>>pos[i][3];
     }
-    // for(int i=0; i<n; ++i)
-    // {
-    //     std::cout<<bfs(pos[i])<<std::endl;
-    // }
-    int size = 1000;
-    std::vector<std::vector<int>> board(size+1, std::vector<int>(size+1, -1));
-    std::priority_queue<knight> p_q;
-    for(int i=0; i<n; ++i)
-    {
-        std::cout<<bfs(pos[i], board, p_q, size)<<std::endl;
-        std::fill(board.begin(), board.end(), std::vector<int>(size+1, -1));
-        while (!p_q.empty()) {
-            p_q.pop();
-        }
-    }
+    
+    
+
 
 
     return 0;
