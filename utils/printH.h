@@ -22,3 +22,14 @@ void printVector1D(const std::vector<int>& input) {
     }
     std::cout<<std::endl;
 }
+
+void printVector2D(const std::vector<std::vector<int>>& input) {
+    for(auto& vec:input) {
+        for(auto& e: vec)
+        {
+            std::cout<<e<<" ";
+        }
+        std::cout<<std::endl;
+    }
+    std::cout<<std::endl;
+}
