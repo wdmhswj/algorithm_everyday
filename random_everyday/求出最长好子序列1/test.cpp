@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <unordered_map>
 #include <vector>
 #include "../../utils/printH.h"
 using std::vector;
@@ -81,6 +82,40 @@ public:
         }
 
         return res;
+    }
+
+    // 优化版
+    int maximumLength3(vector<int>& nums, int k) {
+        const int n = nums.size();
+        std::unordered_map<int, vector<int>> dp;
+        vector<int> zd(k+1, 0);
+
+
+        for(int i=0; i<=n-1; ++i)        
+        {
+            int v = nums[i];    // 以nums[i]结尾的序列
+            if(!dp.count(v))    // 之前还没遇到
+            {
+                dp[v] = vector<int>(k+1, 0);
+            }
+
+            auto& tmp = dp[v];  // 以v结尾的k+1种序列长度
+            for(int j=0; j<=k; ++j)
+            {
+                ++tmp[j];   // 因为当前元素nums[i]==v，则可以直接加入v结尾的序列的结尾
+                if(j>0)
+                {
+                    // 若nums[x]!=nums[i]，则zd[j-1]+1代表最多j个不等的
+                    // 若nums[x]==nums[i]，则zd[j-1]+1代表最多j-1个不等的，也符合要求
+                    tmp[j] = std::max(tmp[j], zd[j-1]+1);
+                }
+            }
+            for(int j=0; j<=k; ++j)
+            {
+                zd[j] = std::max(zd[j], tmp[j]);
+            }
+        }
+        return zd[k];   // 实际上zd[k]代表不超过k个不等的最长子序列的长度
     }
 };
 
