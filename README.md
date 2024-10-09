@@ -1456,6 +1456,87 @@ arr[i] > arr[i+1] > ... > arr[arr.length - 1]
 #### 思路
 - 需要考虑到left_sum与right_sum的关系：`left_sum+nums[cur]+right_sum=sum`。因此只需一次计算总和sum即可降低之后计算左和与右和的复杂度，左和只需在从左到右的遍历过程中每次加前一个数即可。
 
+### 在排序数组中查找元素的第一个和最后一个位置
+#### 题目描述
+给你一个按照非递减顺序排列的整数数组 nums，和一个目标值 target。请你找出给定目标值在数组中的开始位置和结束位置。
+
+如果数组中不存在目标值 target，返回 [-1, -1]。
+
+你必须设计并实现时间复杂度为 O(log n) 的算法解决此问题。
+#### 思路
+- 有序数组+时间复杂度 O(log n) => 二分法，但是题目要求所求元素的第一个和最后一个位置，一个单纯的想法是先用二分法找到一个目标元素，再分别向左向右找第一个和最后一个位置，但这样最坏情况的时间复杂度为 O(n)
+- 随想录的思路是是否二分法分别求左边界和右边界，加起来仍然是 O(log n)，其中用二分法求左右边界的算法值得仔细思考
+#### gpt解读
+```cpp
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        int leftBorder = getLeftBorder(nums, target);
+        int rightBorder = getRightBorder(nums, target);
+        // 情况一
+        if (leftBorder == -2 || rightBorder == -2) return {-1, -1};
+        // 情况三
+        if (rightBorder - leftBorder > 1) return {leftBorder + 1, rightBorder - 1};
+        // 情况二
+        return {-1, -1};
+    }
+private:
+     int getRightBorder(vector<int>& nums, int target) {
+        int left = 0;
+        int right = nums.size() - 1;
+        int rightBorder = -2; // 记录一下rightBorder没有被赋值的情况
+        while (left <= right) {
+            int middle = left + ((right - left) / 2);
+            if (nums[middle] > target) {
+                right = middle - 1;
+            } else { // 寻找右边界，nums[middle] == target的时候更新left
+                left = middle + 1;
+                rightBorder = left;
+            }
+        }
+        return rightBorder;
+    }
+    int getLeftBorder(vector<int>& nums, int target) {
+        int left = 0;
+        int right = nums.size() - 1;
+        int leftBorder = -2; // 记录一下leftBorder没有被赋值的情况
+        while (left <= right) {
+            int middle = left + ((right - left) / 2);
+            if (nums[middle] >= target) { // 寻找左边界，nums[middle] == target的时候更新right
+                right = middle - 1;
+                leftBorder = right;
+            } else {
+                left = middle + 1;
+            }
+        }
+        return leftBorder;
+    }
+};
+```
+这个算法实现了一个二分查找，目的是找到给定目标值 `target` 在一个已排序数组 `nums` 中的右边界（即找到第一个大于 `target` 的元素的索引）。如果没有大于 `target` 的元素，函数将返回 -2，以表明 `target` 在数组的所有元素的左侧。
+
+##### 具体步骤解析：
+
+1. **初始化变量**：
+   - `left` 和 `right`：分别指向数组的左右边界，初始时分别为 0 和 `nums.size() - 1`。
+   - `rightBorder`：用于记录右边界的索引，初始为 -2，表示尚未找到。
+
+2. **二分查找循环**：
+   - 只要 `left` 小于等于 `right`，就继续进行查找。
+   - 计算中间索引 `middle`：使用 `(left + (right - left) / 2)` 来防止溢出。
+   
+3. **判断中间元素**：
+   - 如果 `nums[middle]` 大于 `target`，说明目标值可能在左半部分，因此更新 `right` 为 `middle - 1`。
+   - 如果 `nums[middle]` 小于或等于 `target`，说明目标值可能在右半部分，或者 `middle` 可能就是目标值，因此：
+     - 更新 `left` 为 `middle + 1`。
+     - 同时更新 `rightBorder` 为 `left`，因为这个时候 `left` 就是下一个可能的右边界。
+
+4. **返回结果**：
+   - 当循环结束后，返回 `rightBorder`。如果 `target` 小于数组中的所有元素，`rightBorder` 将保持 -2。
+
+##### 使用场景：
+这种方法适用于需要在一个有序数组中找到某个值的右边界的场景，例如在进行区间查询、统计问题时。它的时间复杂度为 O(log n)，因为每次迭代都将搜索范围减半。
+
 ## 常见的数据结构
 ### 红黑树
 #### 定义
