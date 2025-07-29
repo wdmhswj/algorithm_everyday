@@ -10,3 +10,5 @@
 #include <algorithm>
 #include <functional>
 #include <stack>
+#include <string>
+#include <cstring>
