@@ -13,3 +13,5 @@
 #include <string>
 #include <cstring>
 #include <cmath>
+#include <cstdint>
+#include <numeric>
