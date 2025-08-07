@@ -15,3 +15,4 @@
 #include <cmath>
 #include <cstdint>
 #include <numeric>
+#include <cctype>
