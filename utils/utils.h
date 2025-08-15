@@ -2,6 +2,7 @@
 #include "./splitH.h"
 #include "./printH.h"
 #include "../structs/ListNode.h"
+#include "../structs/Node.h"
 // #include "../structs/nextNode.h"
 // #include "../structs/nNode.h"
 #include "../structs/TreeNode.h"
