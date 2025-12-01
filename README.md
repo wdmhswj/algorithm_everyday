@@ -4497,6 +4497,38 @@ L0 → Ln → L1 → Ln-1 → L2 → Ln-2 → …
   2. 插入值大于最大值或小于最小值：prev.val > curr.val 且 (insertVal >= prev.val 或 insertVal <= curr.val)
   时间复杂度O(n)，空间复杂度O(1)。
 
+### 插入、删除和随机访问都是 O(1) 的容器
+#### 题目描述
+设计一个支持在平均 时间复杂度 O(1) 下，执行以下操作的数据结构：
+
+insert(val)：当元素 val 不存在时返回 true ，并向集合中插入该项，否则返回 false 。
+remove(val)：当元素 val 存在时返回 true ，并从集合中移除该项，否则f返回 true 。
+getRandom：随机返回现有集合中的一项。每个元素应该有 相同的概率 被返回。
+ 
+
+示例 :
+
+输入: inputs = ["RandomizedSet", "insert", "remove", "insert", "getRandom", "remove", "insert", "getRandom"]
+[[], [1], [2], [2], [], [1], [2], []]
+输出: [null, true, false, true, 2, true, false, 2]
+解释:
+RandomizedSet randomSet = new RandomizedSet();  // 初始化一个空的集合
+randomSet.insert(1); // 向集合中插入 1 ， 返回 true 表示 1 被成功地插入
+
+randomSet.remove(2); // 返回 false，表示集合中不存在 2
+
+randomSet.insert(2); // 向集合中插入 2 返回 true ，集合现在包含 [1,2]
+
+randomSet.getRandom(); // getRandom 应随机返回 1 或 2
+
+randomSet.remove(1); // 从集合中移除 1 返回 true 。集合现在包含 [2]
+
+randomSet.insert(2); // 2 已在集合中，所以返回 false
+
+randomSet.getRandom(); // 由于 2 是集合中唯一的数字，getRandom 总是返回 2
+#### 思路
+- 哈希表+数组：使用哈希表存储元素值到数组下标的映射，使用数组存储元素值。插入和删除操作通过哈希表实现，随机访问通过数组实现。注意其中删除操作时将最后一个元素与待删除元素交换位置，然后删除最后一个元素，避免因删除数组中间的元素而导致的移动操作。时间复杂度O(1)，空间复杂度O(n)。
+
 ## C++ 算法/语法
 ### std::sort
 - std::sort 默认结果安装升序排序
