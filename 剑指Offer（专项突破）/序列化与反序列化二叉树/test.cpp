@@ -55,6 +55,23 @@ public:
         return oss.str();
     }
 
+    std::string serialize2(TreeNode* root) {
+        if (root==nullptr) return "";
+        std::ostringstream oss;
+        preorder_serialize(root, oss);
+        return oss.str();
+    }
+
+    void preorder_serialize(TreeNode* root, std::ostringstream& s) {
+        if (root==nullptr)
+            s << "n ";
+        else {
+            s << root->val << " ";
+            preorder_serialize(root->left, s);
+            preorder_serialize(root->right, s);
+        }
+    }
+
     // Decodes your encoded data to tree.
     TreeNode* deserialize(std::string data) {
         if (data.empty()) return nullptr;
@@ -121,6 +138,22 @@ public:
                 q.push(node->right);
             }
         }
+        return root;
+    }
+
+    TreeNode* deserialize2(std::string data) {
+        if (data.empty()) return nullptr;
+
+        std::istringstream iss(data);
+        return preorder_deserialize(iss);
+    }
+    TreeNode* preorder_deserialize(std::istringstream& iss) {
+        std::string item;
+        iss >> item;
+        if (item=="n") return nullptr;
+        TreeNode* root = new TreeNode(std::stoi(item));
+        root->left = preorder_deserialize(iss);
+        root->right = preorder_deserialize(iss);
         return root;
     }
 };
