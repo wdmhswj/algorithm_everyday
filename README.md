@@ -4878,8 +4878,22 @@ boolean startsWith(String prefix) 如果之前已经插入的字符串 word 的�
 MagicDictionary() 初始化对象
 void buildDict(String[] dictionary) 使用字符串数组 dictionary 设定该数据结构，dictionary 中的字符串互不相同
 bool search(String searchWord) 给定一个字符串 searchWord ，判定能否只将字符串中 一个 字母换成另一个字母，使得所形成的新字符串能够与字典中的任一字符串匹配。如果可以，返回 true ；否则，返回 false 。
+
 #### 思路
 - 哈希分组+暴力匹配：使用哈希表std::unordered_map将单词按长度分组存储，键为单词长度，值为对应长度的单词列表。search函数中，先获取searchWord的长度，然后遍历对应长度的单词列表，对于每个单词，计算与searchWord的不同字符数量，若恰好为1则返回true，否则继续检查下一个单词。构建字典的时间复杂度O(N * L)，搜索单词的时间复杂度O(W * L)，空间复杂度O(N * L)，其中N为字典中单词数量，L为单词平均长度，W为对应长度的单词数量。 
+
+### 最短的单词编码
+#### 题目描述
+单词数组 words 的 有效编码 由任意助记字符串 s 和下标数组 indices 组成，且满足：
+
+words.length == indices.length
+助记字符串 s 以 '#' 字符结尾
+对于每个下标 indices[i] ，s 的一个从 indices[i] 开始、到下一个 '#' 字符结束（但不包括 '#'）的 子字符串 恰好与 words[i] 相等
+给定一个单词数组 words ，返回成功对 words 进行编码的最小助记字符串 s 的长度 。
+#### 思路
+- 前缀树：使用前缀树存储单词数组中的单词，插入时将单词反转，这样公共后缀会共享同一条路径。最后统计前缀树中所有叶子节点对应的路径长度之和加上每个叶子节点对应单词的长度（即路径长度）再加上1（即'#'字符）。时间复杂度O(N * L)，空间复杂度O(N * L)，其中N为单词数量，L为单词平均长度。
+
+
 ## C++ 算法/语法
 ### std::sort
 - std::sort 默认结果安装升序排序
