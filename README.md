@@ -5263,6 +5263,14 @@ t = t1 + t2 + ... + tm
 - 动态规划: 定义一个二维数组dp，其中dp[i][j]表示使用0~i的数字可以达到和为j的表达式数量，初始时dp[0][nums[0]+sum] += 1, dp[0][-nums[0]+sum] += 1，表示初始状态，对于i从1到n-1，j从-sum(nums)到sum(nums)，计算dp[i][j] = dp[i-1][j - nums[i-1]] + dp[i-1][j + nums[i-1]]，其中sum(nums)是数组nums中所有元素的总和。最后返回dp[n][target]作为结果，如果target的绝对值大于sum(nums)则返回0。时间复杂度O(n * sum(nums))，空间复杂度O(n * sum(nums))，其中n为输入数组长度，sum(nums)为数组元素的总和。可以优化空间复杂度为O(sum(nums))，只需要使用一个一维数组记录当前是否可以达到某个和即可。
 - 动态规划: 设负数部分的和为neg，则正数部分的和为sum(nums) - neg，且有 sum(nums) - neg - neg = target，即 neg = (sum(nums) - target) / 2。因此问题转化为在数组nums中找到和为neg的子集数量。定义一个一维数组dp，其中dp[j]表示是否可以从数组的前i个元素中选取一些元素使其和为j，初始时dp[0] = 1，表示空集可以达到和为0，对于i从1到n，j从neg down to nums[i-1]，计算dp[j] += dp[j - nums[i-1]]。最后返回dp[neg]作为结果，如果target的绝对值大于sum(nums)或者(sum(nums) - target)不是偶数则返回0。时间复杂度O(n * sum(nums))，空间复杂度O(sum(nums))，其中n为输入数组长度，sum(nums)为数组元素的总和。
 
+### 最少的硬币数目
+#### 题目描述
+给定不同面额的硬币 coins 和一个总金额 amount。编写一个函数来计算可以凑成总金额所需的最少的硬币个数。如果没有任何一种硬币组合能组成总金额，返回 -1。
+
+你可以认为每种硬币的数量是无限的。
+#### 思路
+- 动态规划: 定义一个数组dp，其中dp[i]表示凑成金额i所需的最少硬币个数，初始时dp[0] = 0，表示凑成金额0需要0个硬币，对于i从1到amount，计算dp[i] = min(dp[i - coin] + 1) for all coin in coins if i >= coin。最后返回dp[amount]作为结果，如果dp[amount]仍然为初始值则返回-1。时间复杂度O(amount * n)，空间复杂度O(amount)，其中amount为目标金额，n为硬币种类数量。
+
 ## C++ 算法/语法
 ### std::sort
 - std::sort 默认结果安装升序排序
