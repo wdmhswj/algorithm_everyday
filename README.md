@@ -5271,6 +5271,14 @@ t = t1 + t2 + ... + tm
 #### 思路
 - 动态规划: 定义一个数组dp，其中dp[i]表示凑成金额i所需的最少硬币个数，初始时dp[0] = 0，表示凑成金额0需要0个硬币，对于i从1到amount，计算dp[i] = min(dp[i - coin] + 1) for all coin in coins if i >= coin。最后返回dp[amount]作为结果，如果dp[amount]仍然为初始值则返回-1。时间复杂度O(amount * n)，空间复杂度O(amount)，其中amount为目标金额，n为硬币种类数量。
 
+### 排列的数目
+#### 题目描述
+给定一个由 不同 正整数组成的数组 nums ，和一个目标整数 target 。请从 nums 中找出并返回总和为 target 的元素组合的个数。数组中的数字可以在一次排列中出现任意次，但是顺序不同的序列被视作不同的组合。
+
+题目数据保证答案符合 32 位整数范围。
+#### 思路
+- 动态规划: 定义一个数组dp，其中dp[i]表示凑成金额i的组合数，初始时dp[0] = 1，表示凑成金额0有1种组合（即不选任何数字），对于i从1到target，计算dp[i] = sum(dp[i - num]) for all num in nums if i >= num。最后返回dp[target]作为结果。时间复杂度O(target * n)，空间复杂度O(target)，其中target为目标金额，n为数组nums的长度。
+
 ## C++ 算法/语法
 ### std::sort
 - std::sort 默认结果安装升序排序
